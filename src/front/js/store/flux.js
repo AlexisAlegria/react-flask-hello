@@ -22,11 +22,19 @@ const getState = ({ getStore, getActions, setStore }) => {
         getActions().changeColor(0, "green");
       },
 
-	  syncTokenFromSessionStore: () => {
-		  const token = sessionStorage.getItem("token");
-		  if(token && token !="" && token !=undefined) setStore({ token: token});
-	  },
+      syncTokenFromSessionStore: () => {
+        const token = sessionStorage.getItem("token");
+        if (token && token != "" && token != undefined)
+          setStore({ token: token });
+      },
 
+      logout: () => {
+        sessionStorage.removeItem("token");
+        setStore({ token: null });
+      },
+
+
+      // *** LOGIN ***
       login: async (email, password) => {
         const opts = {
           method: "POST",
@@ -56,9 +64,47 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      // *** SIGNUP ***
+      signup: async (email, password) => {
+        const opts = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        };
+
+        try {
+          const resp = await fetch("http://127.0.0.1:5000/api/signup", opts);
+          if (resp.status !== 200) {
+            alert("there was an error");
+            return false;
+          }
+
+        //   const data = await resp.json();
+        //   console.log("this is from backend", data);
+        //   sessionStorage.setItem("token", data.access_token);
+        //   setStore({ token: data.access_token });
+        //   return true;
+        } catch (error) {
+          console.error("there was an error");
+        }
+      },
+        
+
       getMessage: () => {
         // fetching data from the backend
-        fetch(process.env.BACKEND_URL + "/api/hello")
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: "Bearer " + store.token,
+          },
+        };
+        // fetch(process.env.BACKEND_URL + "/api/hello", opts)
+        fetch("http://127.0.0.1:5000/api/hello", opts)
           .then((resp) => resp.json())
           .then((data) => setStore({ message: data.message }))
           .catch((error) =>

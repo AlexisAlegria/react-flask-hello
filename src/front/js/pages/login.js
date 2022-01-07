@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import { useHistory } from "react-router-dom";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
 
 export const Login = () => {
@@ -14,16 +13,23 @@ export const Login = () => {
     actions.login(email, password);
   };
 
-  if (store.token && store.token != "" && store.token != undefined)
-    history.push("/");
+  // if (store.token && store.token != "" && store.token != undefined)
+  //   history.push("/");
 
   return (
     <div className="text-center mt-5">
-      <h1>Login</h1>
       {store.token && store.token != "" && store.token != undefined ? (
-        "You are logged in token"
+        <div>
+          <h1>Welcome!</h1>
+          <br/>
+          <h1>You are logged in token</h1>
+        </div>
       ) : (
         <div>
+          <h1>Login</h1>
+          <br/>
+          <h3>Please enter your credentials</h3>
+          <br/>
           <input
             type="text"
             placeholder="email"

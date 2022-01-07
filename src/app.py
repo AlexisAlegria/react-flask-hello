@@ -22,18 +22,17 @@ app.url_map.strict_slashes = False
 app.config["JWT_SECRET_KEY"] = os.environ.get('JWT_SECRET')  # Change this!
 jwt = JWTManager(app)
 
+BASEDIR = os.path.abspath(os.path.dirname(__file__))
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(BASEDIR, "test.db")
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# database condiguration
-db_url = os.getenv("DATABASE_URL")
+# database condiguration (these lines of code are original from the bootcamp boilerplate)
+# db_url = os.getenv("DATABASE_URL")
 # if db_url is not None:
 #     app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace("postgres://", "postgresql://")
 # else:
-BASEDIR = os.path.abspath(os.path.dirname(__file__))
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(BASEDIR, "test.db")
+#     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////test.db"
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////test.db"
-
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db)
 db.init_app(app)
 
