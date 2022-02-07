@@ -81,7 +81,7 @@ This boilerplate it's 100% integrated with Herkou, just by pushing your changes 
 3. pipenv install
 4. pipenv shell
 5. cp .env.example .env
-6. npm start
+6. npm run start
 
 - Steps to run Back-end:
 

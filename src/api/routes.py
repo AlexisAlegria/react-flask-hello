@@ -63,7 +63,7 @@ def handle_signup():
             }
         if not mat:
             response_body = {
-            "msg": "Invalid Password. it should have at least 6 characters, one Uppercase letter, and one of these symbols: $ @ # %"
+            "msg": "Invalid Password. it should have at least 6 characters, one Uppercase letter, numbers and one of these symbols: $ @ # %"
             }
             return jsonify(response_body), 400
     except:
@@ -80,12 +80,28 @@ def handle_getUsers():
     query_users = User.query.all()
     query_users = list(map(lambda x: x.serialize(), query_users))
     response_body = {
-        "msg": "GET users response ",
+        "msg": "Hi, GET users response ",
         "users": query_users
     }
 
     return jsonify(response_body), 200
 
+@api.route("/users/<int:id>", methods=["DELETE"])
+def deleteUser(id):
+    user_delete = User.query.get(id)
+    if not user_delete:
+        response_body = {
+            "msg": "Hi, DELETE /user response ",
+            "user": "User not Found"
+        }
+        return jsonify(response_body), 200        
+    db.session.delete(user_delete)
+    db.session.commit()
+    response_body = {
+        "msg": "Hi, DELETE /user response ",
+        "user": "User deleted"
+    }
+    return jsonify(response_body), 200
 
 
 @api.route("/hello", methods=["GET"])
