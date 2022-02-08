@@ -8,7 +8,7 @@ export const Home = () => {
 
   useEffect(() => {
     if (store.token && store.token != "" && store.token != undefined)
-      actions.getMessage()
+      actions.getMessage();
   }, [store.token]);
 
   return (

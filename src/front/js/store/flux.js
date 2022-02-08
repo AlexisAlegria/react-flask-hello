@@ -49,6 +49,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         try {
           const resp = await fetch("http://127.0.0.1:5000/api/token", opts);
+          
           if (resp.status !== 200) {
             alert("there was an error");
             return false;
@@ -59,6 +60,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           sessionStorage.setItem("token", data.access_token);
           setStore({ token: data.access_token });
           return true;
+
         } catch (error) {
           console.error("there was an error");
         }
@@ -93,7 +95,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error("there was an error");
         }
       },
-        
+      
 
       getMessage: () => {
         // fetching data from the backend
