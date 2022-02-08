@@ -86,11 +86,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             return false;
           }
 
-        //   const data = await resp.json();
-        //   console.log("this is from backend", data);
-        //   sessionStorage.setItem("token", data.access_token);
-        //   setStore({ token: data.access_token });
-        //   return true;
         } catch (error) {
           console.error("there was an error");
         }
@@ -113,6 +108,28 @@ const getState = ({ getStore, getActions, setStore }) => {
             console.log("Error loading message from backend", error)
           );
       },
+
+      getLoginDeniedMessage: () => {
+        // fetching data from the backend
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: "Bearer " + store.token,
+          },
+        };
+
+        fetch("http://127.0.0.1:5000/api/token", opts)
+          .then((resp) => resp.json())
+          .then((data) => setStore({ message: data.message }))
+          .catch((error) =>
+            console.log("Error loading message from backend", error)
+          );
+      },
+
+      
+
+
+
       changeColor: (index, color) => {
         //get the store
         const store = getStore();

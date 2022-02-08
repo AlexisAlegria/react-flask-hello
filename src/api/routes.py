@@ -49,7 +49,7 @@ def handle_signup():
         response_body = {
         "message": "Hi, Email address already exists",
         }
-        return jsonify(response_body)
+        return jsonify(response_body), 400
 
     try:
         password = body['password']

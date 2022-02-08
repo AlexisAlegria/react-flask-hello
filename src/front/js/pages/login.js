@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { useHistory } from "react-router-dom";
 import "../../styles/home.css";
@@ -9,12 +9,11 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const history = useHistory();
 
+
   const handleClick = () => {
     actions.login(email, password);
   };
 
-  // if (store.token && store.token != "" && store.token != undefined)
-  //   history.push("/");
 
   return (
     <div className="text-center mt-5">
