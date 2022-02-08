@@ -21,12 +21,12 @@ def create_token():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
     # if email != "test" or password != "test":
-    #     return jsonify({"msg": "Bad username or password"}), 401
+    #     return jsonify({"message": "Bad username or password"}), 401
 
     user = User.query.filter_by(email=email).first()
     if not user or not check_password_hash(user.password, password):
         response_body = {
-        "msg": "Access Denied. Please check your login details and try again.",
+        "message": "Access Denied. Please check your login details and try again.",
         }
         return jsonify(response_body), 400
 
@@ -47,7 +47,7 @@ def handle_signup():
     user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
     if user: # if a user is found, we want to redirect back to signup page so user can try again
         response_body = {
-        "msg": "Hi, Email address already exists",
+        "message": "Hi, Email address already exists",
         }
         return jsonify(response_body)
 
@@ -60,18 +60,18 @@ def handle_signup():
             db.session.add(new_user)
             db.session.commit()
             response_body = {
-            "msg": "Hi, POST /users successfully response. Password is valid :)",
+            "message": "Hi, POST /users successfully response. Password is valid :)",
             }
         if not mat:
             response_body = {
-            "msg": "Invalid Password. it should have at least 6 characters, one Uppercase letter, numbers and one of these symbols: $ @ # %"
+            "message": "Invalid Password. it should have at least 6 characters, one Uppercase letter, numbers and one of these symbols: $ @ # %"
             }
             return jsonify(response_body), 400
     except:
         return "An error occurs adding user...", 400
 
     response_body = {
-        "msg": "Hi, User was created "
+        "message": "Hi, User was created "
     }
 
     return jsonify(response_body), 200
@@ -81,7 +81,7 @@ def handle_getUsers():
     query_users = User.query.all()
     query_users = list(map(lambda x: x.serialize(), query_users))
     response_body = {
-        "msg": "Hi, GET users response ",
+        "message": "Hi, GET users response ",
         "users": query_users
     }
 
@@ -92,14 +92,14 @@ def deleteUser(id):
     user_delete = User.query.get(id)
     if not user_delete:
         response_body = {
-            "msg": "Hi, DELETE /user response ",
+            "message": "Hi, DELETE /user response ",
             "user": "User not Found"
         }
         return jsonify(response_body), 200        
     db.session.delete(user_delete)
     db.session.commit()
     response_body = {
-        "msg": "Hi, DELETE /user response ",
+        "message": "Hi, DELETE /user response ",
         "user": "User deleted"
     }
     return jsonify(response_body), 200
